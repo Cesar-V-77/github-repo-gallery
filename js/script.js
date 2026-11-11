@@ -1,6 +1,9 @@
 //Div where the user data will be displayed with profile information
 const profileData = document.querySelector(".user-data");
 
+//Div where the user repositories will be displayed
+const repoList = document.querySelector(".repo-list");
+
 //Username of the user to fetch data from GitHub API
 const username = "Cesar-V-77";
 
@@ -23,11 +26,24 @@ const displayUserData = function (userData) {
   const userDataDiv = document.createElement("div");
   userDataDiv.innerHTML = `<figure>
     <img src="${userData.avatar_url}" alt="user avatar" />
-    </figure>
+    </figure> 
+    <div>
     <p><strong>Name:</strong> ${userData.name}</p>
     <p><strong>Bio:</strong> ${userData.bio}</p>
     <p><strong>Location:</strong> ${userData.location}</p>
-    <p><strong>Number of Public Repos:</strong> ${userData.public_repos}</p>`;
+    <p><strong>Number of Public Repos:</strong> ${userData.public_repos}</p>
+    </div>`;
 
   profileData.append(userDataDiv);
 };
+
+const fetchUserRepos = async function () {
+  const response = await fetch(
+    `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
+  );
+  const reposData = await response.json();
+  console.log(reposData);
+  // displayUserRepos(reposData);
+};
+
+// fetchUserRepos();
