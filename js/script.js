@@ -11,14 +11,13 @@ const username = "Cesar-V-77";
 const fetchUserData = async function () {
   const response = await fetch(`https://api.github.com/users/${username}`);
   const userData = await response.json();
-  //   return userData;
-  //   fetchUserData();
   console.log(userData);
   displayUserData(userData);
 };
 
 fetchUserData();
 
+//Function to display user data in the profileData div
 const displayUserData = function (userData) {
   profileData.innerHTML = ""; // Clear previous user data
   profileData.classList.add("user-info"); // Add a class for styling
@@ -35,15 +34,27 @@ const displayUserData = function (userData) {
     </div>`;
 
   profileData.append(userDataDiv);
+  fetchUserRepos(); // Call fetchUserRepos after displaying user data
 };
 
+//Function to fetch user repositories from GitHub API
 const fetchUserRepos = async function () {
   const response = await fetch(
     `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
   );
   const reposData = await response.json();
   console.log(reposData);
-  // displayUserRepos(reposData);
+  displayUserRepos(reposData);
 };
 
-// fetchUserRepos();
+//Function to display user repositories in the repoList div
+const displayUserRepos = function (reposData) {
+  repoList.innerHTML = ""; // Clear previous repo data
+
+  for (const repo of reposData) {
+    const repoItem = document.createElement("li");
+    repoItem.classList.add("repo"); // Add a class for styling
+    repoItem.innerHTML = `<button class="repo-name">${repo.name}</button>`;
+    repoList.append(repoItem);
+  }
+};
