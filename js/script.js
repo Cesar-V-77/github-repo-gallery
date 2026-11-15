@@ -4,6 +4,10 @@ const profileData = document.querySelector(".user-data");
 //Div where the user repositories will be displayed
 const repoList = document.querySelector(".repo-list");
 
+const allReposButton = document.querySelector(".repos");
+
+const repoData = document.querySelector(".repo-data");
+
 //Username of the user to fetch data from GitHub API
 const username = "Cesar-V-77";
 
@@ -58,3 +62,10 @@ const displayUserRepos = function (reposData) {
     repoList.append(repoItem);
   }
 };
+
+repoList.addEventListener("click", function (e) {
+  if (e.target.matches(".repo-name")) {
+    const repoName = e.target.innerText;
+    console.log(repoName);
+  }
+});
