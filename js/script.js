@@ -63,9 +63,31 @@ const displayUserRepos = function (reposData) {
   }
 };
 
+//Event listener for clicking on a repository name
 repoList.addEventListener("click", function (e) {
   if (e.target.matches(".repo-name")) {
     const repoName = e.target.innerText;
-    console.log(repoName);
+    // console.log(repoName);
+    fetchTargetRepo(repoName);
   }
 });
+
+//Function to fetch target repository data from GitHub API
+const fetchTargetRepo = async function (repoName) {
+  const response = await fetch(
+    `https://api.github.com/repos/${username}/${repoName}`,
+  );
+  const repoInfo = await response.json();
+  console.log(repoInfo);
+  // displayTargetRepo(repoInfo);
+
+  // Fetch the languages used in the repository
+  const fetchLanguages = await fetch(repoInfo.languages_url);
+  const languageData = await fetchLanguages.json();
+  console.log(languageData);
+  const languages = [];
+  for (const language in languageData) {
+    languages.push(language);
+  }
+  console.log(languages);
+};
