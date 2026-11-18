@@ -79,7 +79,6 @@ const fetchTargetRepo = async function (repoName) {
   );
   const repoInfo = await response.json();
   console.log(repoInfo);
-  // displayTargetRepo(repoInfo);
 
   // Fetch the languages used in the repository
   const fetchLanguages = await fetch(repoInfo.languages_url);
@@ -90,4 +89,21 @@ const fetchTargetRepo = async function (repoName) {
     languages.push(language);
   }
   console.log(languages);
+  displayTargetRepo(repoInfo, languages);
+};
+
+const displayTargetRepo = function (repoInfo, languages) {
+  repoData.innerHTML = ""; // Clear previous repo data
+  const targetRepoDiv = document.createElement("div");
+  targetRepoDiv.classList.add("repo-info"); // Add a class for styling
+  targetRepoDiv.innerHTML = `<h3><strong>Name:</strong> ${repoInfo.name}</h3>
+    <p><strong>Description:</strong> ${repoInfo.description}</p>
+    <p><strong>Default Branch:</strong> ${repoInfo.default_branch}</p>
+    <p><strong>Languages:</strong> ${languages.join(", ")}</p>
+    <button><a href="${repoInfo.html_url}" target="_blank">View on GitHub</a></button>`;
+
+  repoData.append(targetRepoDiv);
+
+  repoData.classList.remove("hide"); // Show the repoData div
+  allReposButton.classList.add("hide"); // Hide the allReposButton
 };
